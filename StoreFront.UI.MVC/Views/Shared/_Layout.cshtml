@@ -59,7 +59,7 @@
 						<!-- menu start -->
 						<nav class="main-menu">
 							<ul>
-								<li class="current-list-item"><a href="~/">Home</a>
+								<li class="current-list-item"><a href="@Url.Action("Index","Home")">Home</a>
 								</li>
 								<li><a href="@Url.Action("About","Home")">About</a></li>
 								<li><a href="#">Pages</a>
@@ -80,7 +80,8 @@
 										<li><a href="@Url.Action("Cart","Home")">Cart</a></li>
 									</ul>
 								</li>
-								<li>
+                                <partial name="_LoginPartial" />
+                                <li>
 									<div class="header-icons">
 										<a class="shopping-cart" href="@Url.Action("Cart","Home")"><i class="fas fa-shopping-cart"></i></a>
 										<a class="mobile-hide search-bar-icon" href="#"><i class="fas fa-search"></i></a>
@@ -233,6 +234,8 @@
 	<script src="~/assets/js/sticker.js"></script>
 	<!-- main js -->
 	<script src="~/assets/js/main.js"></script>
+
+	@RenderSection("scripts", false)
 
 </body>
 </html>
