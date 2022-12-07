@@ -71,7 +71,7 @@ namespace StoreFront.DATA.EF/*.Metadata*/
         public int UserId { get; set; }
 
         [Display(Name = "Purchase Date")]
-        [DisplayFormat(DataFormatString = "{0:f}", NullDisplayText = "[N/A")]
+        [DisplayFormat(DataFormatString = "{0:d}", NullDisplayText = "[N/A")]
         public DateTime? PurchaseDate { get; set; }
 
         [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:c}", NullDisplayText = "[N/A")]
