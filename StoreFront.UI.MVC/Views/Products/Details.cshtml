@@ -4,58 +4,199 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+
+
+
+<!-- breadcrumb-section -->
+<div class="breadcrumb-section breadcrumb-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2 text-center">
+                <div class="breadcrumb-text">
+                    <p>More Details</p>
+                    <h1>Products Details</h1>
+                    <p class="text-center" align="center">
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a asp-action="Create">Edit Product</a>
+                        }
+                    </p>
+                    <a asp-action="Index" class="cart-btn"><i class="fas"></i> Back to Products</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- end breadcrumb section -->
+<div class="single-product mt-150 mb-150">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="single-product-img">
+                    <img src="~/assets/img/products/product-img-5.jpg" alt="">
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="single-product-content">
+                    <h3>@Model.ProductName</h3>
+                    <p class="single-product-pricing">@Html.DisplayFor(model => model.Price)</p>
+                    <p>@Model.Description</p>
+                    @if (Model.IsOnline != true)
+                    {
+                        <p><strong>Campus: </strong>@Html.DisplayFor(model => model.Location.CampusName)</p>
+                        <p><strong>Location: </strong>@Html.DisplayFor(model => model.Location.City)</p>
+                        <p><strong>State: </strong>@Html.DisplayFor(model => model.Location.State)</p>
+                    }
+                    else
+                    {
+                        <p>Location: Online Only</p>
+                    }
+                    <div class="single-product-form">
+                        <form action="~/">
+                            <input type="number" placeholder="0">
+                        </form>
+                        <a href="@Url.Action("Cart","Home")" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+                        <p><strong>Categories: </strong>@Html.DisplayFor(model => model.Category.CategoryName)</p>
+                        @if (User.IsInRole("Admin"))
+                        {
+
+                            <strong>
+                                <a asp-action="Edit" asp-route-id="@Model.ProductId">Edit |</a>
+                            </strong>
+
+                            @if (Model.Discontinued != true)
+                            {
+                                <strong>
+                                    <a asp-action="Delete" asp-route-id="@Model.ProductId">Delete</a>
+                                </strong>
+                            }
+                            else
+                            {
+                                <a disabled="true" class="text-danger" style="text-decoration: line-through;"
+                           title="Can't delete - referenced by other records">
+                                    Delete
+                                </a>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end single product -->
+<!-- more products -->
+<div class="more-products mb-150">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2 text-center">
+                <div class="section-title">
+                    <h3><span class="orange-text">Related</span> Products</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, fuga quas itaque eveniet beatae optio.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-4 col-md-6 text-center">
+                <div class="single-product-item">
+                    <div class="product-image">
+                        <a href="@Url.Action("SingleProduct","Home")"><img src="~/assets/img/products/product-img-1.jpg" alt=""></a>
+                    </div>
+                    <h3>Strawberry</h3>
+                    <p class="product-price"><span>Per Kg</span> 85$ </p>
+                    <a href="@Url.Action("Cart","Home")" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 text-center">
+                <div class="single-product-item">
+                    <div class="product-image">
+                        <a href="@Url.Action("SingleProduct","Home")"><img src="~/assets/img/products/product-img-2.jpg" alt=""></a>
+                    </div>
+                    <h3>Berry</h3>
+                    <p class="product-price"><span>Per Kg</span> 70$ </p>
+                    <a href="@Url.Action("Cart","Home")" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 offset-lg-0 offset-md-3 text-center">
+                <div class="single-product-item">
+                    <div class="product-image">
+                        <a href="@Url.Action("SingleProduct","Home")"><img src="~/assets/img/products/product-img-3.jpg" alt=""></a>
+                    </div>
+                    <h3>Lemon</h3>
+                    <p class="product-price"><span>Per Kg</span> 35$ </p>
+                    <a href="@Url.Action("Cart","Home")" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- end more products -->
+
+
+
+
+
+
+
+
+
+
 
 <div>
     <h4>Product</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Price)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Price)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Discontinued)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Discontinued)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Description)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Description)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.ProductImage)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.ProductImage)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.ProductName)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.ProductName)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.IsOnline)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.IsOnline)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Category)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Category.CategoryName)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Location)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Location.CampusName)
         </dd>
     </dl>

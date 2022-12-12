@@ -61,7 +61,15 @@
 							<ul>
 								<li class="current-list-item"><a href="@Url.Action("Index","Home")">Home</a>
 								</li>
-								<li><a href="@Url.Action("About","Home")">About</a></li>
+								<li><a href="@Url.Action("Shop","Home")">Shop</a>
+									<ul class="sub-menu">
+										<li><a href="@Url.Action("Index","Products")">Products</a></li>
+										<li><a href="@Url.Action("Index","Orders")">Orders</a></li>
+										<li><a href="@Url.Action("Index","Categories")">Categories</a></li>
+										<li><a href="@Url.Action("Index","UserDetails")">User Details</a></li>
+										<li><a href="@Url.Action("Index","ClassLocations")">Class Locations</a></li>
+									</ul>
+								</li>
 								<li><a href="#">Pages</a>
 									<ul class="sub-menu">
 										<li><a href="@Url.Action("About","Home")">About</a></li>
@@ -71,16 +79,9 @@
 										<li><a href="@Url.Action("Shop","Home")">Shop</a></li>
 									</ul>
 								</li>
-								<li><a href="@Url.Action("Contact","Home")">Contact</a></li>
-								<li><a href="@Url.Action("Shop","Home")">Shop</a>
-									<ul class="sub-menu">
-										<li><a href="@Url.Action("Shop","Home")">Shop</a></li>
-										<li><a href="@Url.Action("Checkout","Home")">Checkout</a></li>
-										<li><a href="@Url.Action("SingleProduct","Home")">Single Product</a></li>
-										<li><a href="@Url.Action("Cart","Home")">Cart</a></li>
-									</ul>
-								</li>
                                 <partial name="_LoginPartial" />
+								<li><a href="@Url.Action("About","Home")">About</a></li>
+								<li><a href="@Url.Action("Contact","Home")">Contact</a></li>
                                 <li>
 									<div class="header-icons">
 										<a class="shopping-cart" href="@Url.Action("Cart","Home")"><i class="fas fa-shopping-cart"></i></a>
@@ -234,6 +235,26 @@
 	<script src="~/assets/js/sticker.js"></script>
 	<!-- main js -->
 	<script src="~/assets/js/main.js"></script>
+
+
+
+	@if (ViewData["Title"].ToString() == "Orders" || ViewData["Title"].ToString() == "Class Locations" || ViewData["Title"].ToString() == "Categories" ||
+			ViewData["Title"].ToString() == "User Details" || ViewData["Title"].ToString() == "Create a Role" || ViewData["Title"].ToString() == "List Roles"
+			|| ViewData["Title"].ToString() == "Edit Role" || ViewData["Title"].ToString() == "Log in" || ViewData["Title"].ToString() == "Table View")
+
+		{
+		<!-- Add bg-secondary to div element in header -->
+		<script>
+			let div = document.getElementById('sticker');
+			if (div.classList.contains('top-header-area')) {
+				div.classList.add('bg-secondary');
+			};
+		</script>
+		}
+
+
+
+
 
 	@RenderSection("scripts", false)
 

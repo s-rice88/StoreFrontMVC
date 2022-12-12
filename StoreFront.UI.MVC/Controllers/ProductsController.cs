@@ -21,8 +21,27 @@ namespace StoreFront.UI.MVC.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            var educatedMoneyContext = _context.Products.Include(p => p.Category).Include(p => p.Location);
-            return View(await educatedMoneyContext.ToListAsync());
+            //var product = _context.Products.Include(p => p.Category).Include(p => p.Location);
+
+            var product = _context.Products.Where(p => !p.Discontinued)
+                .Include(p => p.Category)
+                .Include(p => p.Location);
+
+
+            return View(await product.ToListAsync());
+        }
+
+        //GET: Products/TableView
+        public async Task<IActionResult> TableView()
+        {
+            //var products =
+            //    _context.Products.Where(p => !p.Discontinued)
+            //    .Include(p => p.Category)
+            //    .Include(p => p.Location);
+            var product = _context.Products.Include(p => p.Category).Include(p => p.Location);
+
+            return View(await product.ToListAsync());
+
         }
 
         // GET: Products/Details/5
