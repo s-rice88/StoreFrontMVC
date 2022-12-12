@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace StoreFront.DATA.EF.Models/*.Metadata*/
 {
@@ -30,7 +31,8 @@ namespace StoreFront.DATA.EF.Models/*.Metadata*/
     [ModelMetadataType(typeof(ProductMetadata))]
     public partial class Product
     {
-
+        [NotMapped]
+        public IFormFile? Image { get; set; }
     }
 
     [ModelMetadataType(typeof(UserDetailMetadata))]

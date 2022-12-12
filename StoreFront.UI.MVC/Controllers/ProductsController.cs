@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using StoreFront.DATA.EF.Models;
+using System.Drawing;
+using StoreFront.UI.MVC.Utilities;
 
 namespace StoreFront.UI.MVC.Controllers
 {
@@ -15,10 +17,12 @@ namespace StoreFront.UI.MVC.Controllers
     public class ProductsController : Controller
     {
         private readonly EducatedMoneyContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public ProductsController(EducatedMoneyContext context)
+        public ProductsController(EducatedMoneyContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         // GET: Products
@@ -26,6 +30,14 @@ namespace StoreFront.UI.MVC.Controllers
         public async Task<IActionResult> Index()
         {
             //var product = _context.Products.Include(p => p.Category).Include(p => p.Location);
+            if (User.IsInRole("Admin"))
+            {
+                var product = _context.Products.Include(p => p.Category).Include(p => p.Location);
+
+                return View(await product.ToListAsync());
+            }
+            else
+            {
 
             var product = _context.Products.Where(p => !p.Discontinued)
                 .Include(p => p.Category)
@@ -33,6 +45,7 @@ namespace StoreFront.UI.MVC.Controllers
 
 
             return View(await product.ToListAsync());
+            }
         }
 
         //GET: Products/TableView
@@ -83,8 +96,70 @@ namespace StoreFront.UI.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductId,Price,Discontinued,Description,ProductImage,ProductName,CategoryId,LocationId,IsOnline")] Product product)
+        public async Task<IActionResult> Create([Bind("ProductId,Price,Discontinued,Description,ProductImage,ProductName,CategoryId,LocationId,IsOnline,Image")] Product product)
         {
+
+            if (ModelState.IsValid)
+            {
+
+                
+                if (product.Image != null)
+                {
+                    
+                    string ext = Path.GetExtension(product.Image.FileName);
+
+                    
+                    string[] validExts = { ".jpeg", ".jpg", ".gif", ".png" };
+
+                    
+                    if (validExts.Contains(ext.ToLower()) && product.Image.Length < 4_194_303)
+                    {
+
+                        
+                        product.ProductImage = Guid.NewGuid() + ext;
+
+                        
+                        string webRootPath = _webHostEnvironment.WebRootPath;
+
+                        
+                        string fullImagePath = webRootPath + "/images/";
+
+                        
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            
+                            await product.Image.CopyToAsync(memoryStream);
+
+                            
+                            using (var img = Image.FromStream(memoryStream))
+                            {
+
+
+                                int maxImageSize = 500;
+                                int maxThumbSize = 100;
+
+                                ImageUtility.ResizeImage(fullImagePath, product.ProductImage, img, maxImageSize, maxThumbSize);
+
+                             
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    
+                    product.ProductImage = "noimage.png";
+                }
+
+
+                _context.Add(product);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", product.CategoryId);
+            ViewData["SupplierId"] = new SelectList(_context.ClassLocations, "LocationId", "CampusName", product.LocationId);
+            return View(product);
+
             if (ModelState.IsValid)
             {
                 _context.Add(product);
@@ -119,7 +194,7 @@ namespace StoreFront.UI.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,Price,Discontinued,Description,ProductImage,ProductName,CategoryId,LocationId,IsOnline")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductId,Price,Discontinued,Description,ProductImage,ProductName,CategoryId,LocationId,IsOnline,Image")] Product product)
         {
             if (id != product.ProductId)
             {
@@ -128,6 +203,57 @@ namespace StoreFront.UI.MVC.Controllers
 
             if (ModelState.IsValid)
             {
+
+                
+                string oldImageName = product.ProductImage;
+
+                
+                if (product.Image != null)
+                {
+                    
+                    string ext = Path.GetExtension(product.Image.FileName);
+
+                    
+                    string[] validExts = { ".jpeg", ".jpg", ".gif", ".png" };
+
+                    
+                    if (validExts.Contains(ext.ToLower()) && product.Image.Length < 4_194_303)
+                    {
+                        
+                        product.ProductImage = Guid.NewGuid() + ext;
+
+                        
+                        string webRootPath = _webHostEnvironment.WebRootPath;
+                        string fullImagePath = webRootPath + "/images/";
+
+                        
+                        if (oldImageName != "noimage.png")
+                        {
+                            ImageUtility.Delete(fullImagePath, oldImageName);
+                        }
+
+                        
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            
+                            await product.Image.CopyToAsync(memoryStream);
+
+                            
+                            using (var img = Image.FromStream(memoryStream))
+                            {
+                                
+                                int maxImageSize = 500;
+                                int maxThumbSize = 100;
+
+                                
+                                ImageUtility.ResizeImage(fullImagePath, product.ProductImage, img, maxImageSize, maxThumbSize);
+                            }
+                        }
+                    }
+                }
+
+                
+
                 try
                 {
                     _context.Update(product);
@@ -147,8 +273,37 @@ namespace StoreFront.UI.MVC.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", product.CategoryId);
-            ViewData["LocationId"] = new SelectList(_context.ClassLocations, "LocationId", "CampusName", product.LocationId);
+            ViewData["SupplierId"] = new SelectList(_context.ClassLocations, "LocationId", "CampusName", product.LocationId);
             return View(product);
+
+            //if (id != product.ProductId)
+            //{
+            //    return NotFound();
+            //}
+
+            //if (ModelState.IsValid)
+            //{
+            //    try
+            //    {
+            //        _context.Update(product);
+            //        await _context.SaveChangesAsync();
+            //    }
+            //    catch (DbUpdateConcurrencyException)
+            //    {
+            //        if (!ProductExists(product.ProductId))
+            //        {
+            //            return NotFound();
+            //        }
+            //        else
+            //        {
+            //            throw;
+            //        }
+            //    }
+            //    return RedirectToAction(nameof(Index));
+            //}
+            //ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", product.CategoryId);
+            //ViewData["LocationId"] = new SelectList(_context.ClassLocations, "LocationId", "CampusName", product.LocationId);
+            //return View(product);
         }
 
         // GET: Products/Delete/5
