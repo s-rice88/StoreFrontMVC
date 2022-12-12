@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Mvc;
 
-namespace StoreFront.DATA.EF/*.Metadata*/
+namespace StoreFront.DATA.EF.Models/*.Metadata*/
 {
 
     [ModelMetadataType(typeof(CategoryMetadata))]

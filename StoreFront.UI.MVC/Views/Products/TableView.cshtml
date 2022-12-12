@@ -1,0 +1,101 @@
+﻿@model IEnumerable<StoreFront.DATA.EF.Models.Product>
+
+@{
+    ViewData["Title"] = "Table View";
+}
+
+<div class="breadcrumb-section breadcrumb-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2 text-center">
+                <div class="breadcrumb-text">
+                    <p>Your Financial Journey Starts Here</p>
+                    <h1 class="pb-2">Products</h1>
+                    <a asp-action="Index" class="cart-btn"><i class="fas"></i> Tiled View</a>
+                    <p class="pt-4 text-center" align="center">
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a class="bordered-btn" asp-action="Create">Add Product</a>
+                        }
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<table class="ml-4 table table-striped">
+    <thead>
+        <tr class="text-black">
+            <th>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductImage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.ProductId">
+                        @Html.DisplayFor(modelItem => item.ProductName)
+                    </a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductImage)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                </td>
+                <td>
+                    @if (item.IsOnline != true)
+                    {
+                        @Html.DisplayFor(modelItem => item.Location.CampusName)
+                    }
+                    else
+                    {
+                        <p>Online</p>
+                    }
+                </td>
+                @if (User.IsInRole("Admin"))
+                {
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
+
+                        @if (item.Discontinued != true)
+                        {
+                            <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
+                        }
+                        else
+                        {
+                            <a disabled="true" class="text-danger" style="text-decoration: line-through;"
+                   title="Can't delete - referenced by other records">
+                                Delete
+                            </a>
+                        }
+
+
+
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
