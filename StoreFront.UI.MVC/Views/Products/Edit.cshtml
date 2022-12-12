@@ -1,18 +1,31 @@
 ﻿@model StoreFront.DATA.EF.Models.Product
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Modify";
 }
 
-<h1>Edit</h1>
+<div class="breadcrumb-section breadcrumb-bg pb-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2 text-center">
+                <div class="breadcrumb-text">
+                    <h1 class="pb-2">Modify @Model.ProductName</h1>
+                    <a asp-action="TableView" class="cart-btn"><i class="fas"></i>Return to Table View</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<h4>Product</h4>
-<hr />
-<div class="row">
+
+<div class="row pt-4 justify-content-center">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ProductId" />
+
+            <input type="hidden" asp-for="ProductImage" />
+
             <div class="form-group">
                 <label asp-for="Price" class="control-label"></label>
                 <input asp-for="Price" class="form-control" />
@@ -30,7 +43,10 @@
             </div>
             <div class="form-group">
                 <label asp-for="ProductImage" class="control-label"></label>
-                <input asp-for="ProductImage" class="form-control" />
+                @*<input asp-for="ProductImage" class="form-control" />*@
+                <input type="file" asp-for="Image" class="form-control" />
+
+
                 <span asp-validation-for="ProductImage" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -53,16 +69,13 @@
                     <input class="form-check-input" asp-for="IsOnline" /> @Html.DisplayNameFor(model => model.IsOnline)
                 </label>
             </div>
-            <div class="form-group">
+            <div class="form-group text-center">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
