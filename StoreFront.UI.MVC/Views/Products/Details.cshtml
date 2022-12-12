@@ -52,6 +52,12 @@
                     {
                         <p>Location: Online Only</p>
                     }
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <p>
+                            Discontinued: @Html.DisplayFor(model => model.Discontinued)
+                        </p>
+                    }
                     <div class="single-product-form">
                         <form action="~/">
                             <input type="number" placeholder="0">

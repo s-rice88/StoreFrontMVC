@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +11,7 @@ using StoreFront.DATA.EF.Models;
 
 namespace StoreFront.UI.MVC.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ProductsController : Controller
     {
         private readonly EducatedMoneyContext _context;
@@ -19,6 +22,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         // GET: Products
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             //var product = _context.Products.Include(p => p.Category).Include(p => p.Location);
@@ -32,6 +36,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         //GET: Products/TableView
+        [AllowAnonymous]
         public async Task<IActionResult> TableView()
         {
             //var products =
@@ -45,6 +50,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         // GET: Products/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Products == null)

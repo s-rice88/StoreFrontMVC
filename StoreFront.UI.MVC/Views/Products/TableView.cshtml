@@ -43,6 +43,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.Location)
             </th>
+            @if (User.IsInRole("Admin"))
+            {
+            <th>
+                @Html.DisplayNameFor(model => model.Discontinued)
+            </th>   
+            }
             <th></th>
         </tr>
     </thead>
@@ -74,6 +80,12 @@
                         <p>Online</p>
                     }
                 </td>
+                @if (User.IsInRole("Admin"))
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Discontinued)
+                    </td>
+                }
                 @if (User.IsInRole("Admin"))
                 {
                     <td>
