@@ -180,26 +180,26 @@ namespace StoreFront.UI.MVC.Areas.Identity.Pages.Account
                     var userId = await _userManager.GetUserIdAsync(user);
 
 
-                    //EducatedMoneyContext _context = new EducatedMoneyContext();
+                    EducatedMoneyContext _context = new EducatedMoneyContext();
 
-                    //UserDetail userDetail = new UserDetail()
-                    //{
-                    //    UserId = userId,
-                    //    FirstName = Input.FirstName,
-                    //    LastName = Input.LastName,
-                    //    Address = Input.Address,
-                    //    City = Input.City,
-                    //    TimeZone = Input.TimeZone,
-                    //    PostalCode = Input.PostalCode,
-                    //    Country = Input.Country,
-                    //    Phone = Input.Phone,
-                    //    Occupation = Input.Occupation,
-                    //    Salary = Input.Salary,
-                    //};
+                    UserDetail userDetail = new UserDetail()
+                    {
+                        UserId = userId,
+                        FirstName = Input.FirstName,
+                        LastName = Input.LastName,
+                        Address = Input.Address,
+                        City = Input.City,
+                        TimeZone = Input.TimeZone,
+                        PostalCode = Input.PostalCode,
+                        Country = Input.Country,
+                        Phone = Input.Phone,
+                        Occupation = Input.Occupation,
+                        Salary = Input.Salary,
+                    };
 
-                    //_context.UserDetails.Add(userDetail);
+                    _context.UserDetails.Add(userDetail);
 
-                    //_context.SaveChanges();
+                    _context.SaveChanges();
 
 
 
