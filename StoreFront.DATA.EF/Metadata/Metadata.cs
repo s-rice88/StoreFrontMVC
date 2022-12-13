@@ -68,7 +68,7 @@ namespace StoreFront.DATA.EF.Models/*.Metadata*/
     public class OrderMetadata
     {
         //public int OrderId { get; set; }
-        public int UserId { get; set; }
+        //public string UserId { get; set; }
 
         [Display(Name = "Purchase Date")]
         [DisplayFormat(DataFormatString = "{0:d}", NullDisplayText = "[N/A")]
@@ -77,7 +77,6 @@ namespace StoreFront.DATA.EF.Models/*.Metadata*/
         [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:c}", NullDisplayText = "[N/A")]
         [Display(Name = "Purchase Price")]
         public decimal? PurchasePrice { get; set; }
-
 
         public int ProductId { get; set; }
     }
