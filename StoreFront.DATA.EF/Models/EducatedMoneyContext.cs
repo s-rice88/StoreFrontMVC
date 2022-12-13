@@ -33,7 +33,7 @@ namespace StoreFront.DATA.EF.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=.\\sqlexpress;database=EducatedMoney;trusted_connection=true;multipleactiveresultsets=true;");
+                optionsBuilder.UseSqlServer("server=.\\sqlexpress;database=educatedmoney;trusted_connection=true;multipleactiveresultsets=true;");
             }
         }
 
@@ -166,7 +166,9 @@ namespace StoreFront.DATA.EF.Models
 
                 entity.Property(e => e.PurchasePrice).HasColumnType("money");
 
-                entity.Property(e => e.UserId).HasColumnName("UserID");
+                entity.Property(e => e.UserId)
+                    .HasMaxLength(128)
+                    .HasColumnName("UserID");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.Orders)
@@ -214,7 +216,9 @@ namespace StoreFront.DATA.EF.Models
             {
                 entity.HasKey(e => e.UserId);
 
-                entity.Property(e => e.UserId).HasColumnName("UserID");
+                entity.Property(e => e.UserId)
+                    .HasMaxLength(128)
+                    .HasColumnName("UserID");
 
                 entity.Property(e => e.Address)
                     .HasMaxLength(100)

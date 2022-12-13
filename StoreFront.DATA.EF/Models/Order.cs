@@ -6,7 +6,7 @@ namespace StoreFront.DATA.EF.Models
     public partial class Order
     {
         public int OrderId { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; } = null!;
         public DateTime? PurchaseDate { get; set; }
         public decimal? PurchasePrice { get; set; }
         public int ProductId { get; set; }

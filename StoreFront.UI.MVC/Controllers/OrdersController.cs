@@ -24,8 +24,8 @@ namespace StoreFront.UI.MVC.Controllers
         // GET: Orders
         public async Task<IActionResult> Index()
         {
-            var educatedMoneyContext = _context.Orders.Include(o => o.Product).Include(o => o.User);
-            return View(await educatedMoneyContext.ToListAsync());
+            var EducatedMoneyContext = _context.Orders.Include(o => o.Product).Include(o => o.User);
+            return View(await EducatedMoneyContext.ToListAsync());
         }
 
         // GET: Orders/Details/5

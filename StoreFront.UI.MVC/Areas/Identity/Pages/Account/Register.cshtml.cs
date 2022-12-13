@@ -19,6 +19,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 
+using StoreFront.DATA.EF.Models;
+
 namespace StoreFront.UI.MVC.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
@@ -97,6 +99,59 @@ namespace StoreFront.UI.MVC.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+
+
+
+
+
+            //                      --------------------------------ADDED PROPERTIES FOR INFO TEXTBOXES IN VIEW--------------------------------
+
+            [Required]
+            [StringLength(50, ErrorMessage = "*Max 50 Characters")]
+            [Display(Name = "First Name")]
+            public string FirstName { get; set; } = null!;
+
+            [Required]
+            [StringLength(50, ErrorMessage = "*Max 50 Characters")]
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; } = null!;
+
+            
+            [StringLength(100, ErrorMessage = "*Max 100 Characters")]
+            public string? Address { get; set; }
+
+            
+            [StringLength(150, ErrorMessage = "*Max 150 Characters")]
+            public string? City { get; set; }
+
+            
+            [StringLength(150, ErrorMessage = "*Max 150 Characters")]
+            [Display(Name = "Time Zone")]
+            public string? TimeZone { get; set; }
+
+            
+            [StringLength(5, ErrorMessage = "*Max 5 Characters")]
+            [DataType(DataType.PostalCode)]
+            [Display(Name = "Zip")]
+            public string? PostalCode { get; set; }
+
+            
+            [StringLength(15, ErrorMessage = "*Max 15 Characters")]
+            public string? Country { get; set; }
+
+            
+            [StringLength(24, ErrorMessage = "*Max 24 Digit Phone Number")]
+            [DataType(DataType.PhoneNumber)]
+            public string? Phone { get; set; }
+
+            
+            [StringLength(150, ErrorMessage = "*Max 150 Characters")]
+            public string? Occupation { get; set; }
+
+            [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:c}", NullDisplayText = "[N/A]")]
+            public decimal? Salary { get; set; }
+
         }
 
 
@@ -123,6 +178,31 @@ namespace StoreFront.UI.MVC.Areas.Identity.Pages.Account
                     _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);
+
+
+                    //EducatedMoneyContext _context = new EducatedMoneyContext();
+
+                    //UserDetail userDetail = new UserDetail()
+                    //{
+                    //    UserId = userId,
+                    //    FirstName = Input.FirstName,
+                    //    LastName = Input.LastName,
+                    //    Address = Input.Address,
+                    //    City = Input.City,
+                    //    TimeZone = Input.TimeZone,
+                    //    PostalCode = Input.PostalCode,
+                    //    Country = Input.Country,
+                    //    Phone = Input.Phone,
+                    //    Occupation = Input.Occupation,
+                    //    Salary = Input.Salary,
+                    //};
+
+                    //_context.UserDetails.Add(userDetail);
+
+                    //_context.SaveChanges();
+
+
+
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(

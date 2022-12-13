@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +9,6 @@ using StoreFront.DATA.EF.Models;
 
 namespace StoreFront.UI.MVC.Controllers
 {
-    [Authorize(Roles = "Admin")]
     public class UserDetailsController : Controller
     {
         private readonly EducatedMoneyContext _context;
@@ -28,7 +25,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         // GET: UserDetails/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null || _context.UserDetails == null)
             {
@@ -68,7 +65,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         // GET: UserDetails/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(string id)
         {
             if (id == null || _context.UserDetails == null)
             {
@@ -88,7 +85,7 @@ namespace StoreFront.UI.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserId,FirstName,LastName,Address,City,TimeZone,PostalCode,Country,Phone,Occupation,Salary,EmailAddress")] UserDetail userDetail)
+        public async Task<IActionResult> Edit(string id, [Bind("UserId,FirstName,LastName,Address,City,TimeZone,PostalCode,Country,Phone,Occupation,Salary,EmailAddress")] UserDetail userDetail)
         {
             if (id != userDetail.UserId)
             {
@@ -119,7 +116,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         // GET: UserDetails/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null || _context.UserDetails == null)
             {
@@ -139,7 +136,7 @@ namespace StoreFront.UI.MVC.Controllers
         // POST: UserDetails/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
             if (_context.UserDetails == null)
             {
@@ -155,7 +152,7 @@ namespace StoreFront.UI.MVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserDetailExists(int id)
+        private bool UserDetailExists(string id)
         {
           return _context.UserDetails.Any(e => e.UserId == id);
         }
