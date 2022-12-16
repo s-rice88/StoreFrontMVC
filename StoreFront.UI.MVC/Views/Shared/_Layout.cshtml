@@ -6,6 +6,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
 
+	@using Microsoft.AspNetCore.Http
+	@using Newtonsoft.Json
+
 	<!-- title -->
 	<title>@ViewData["Title"] | StoreFront </title>
 
@@ -61,31 +64,82 @@
 							<ul>
 								<li class="current-list-item"><a href="@Url.Action("Index","Home")">Home</a>
 								</li>
-								<li><a href="@Url.Action("Shop","Home")">Shop</a>
+								<li>
+									@*<a href="@Url.Action("Index","Products")">Shop</a>*@
+									<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">Shop <span class="caret"></span></span></a>
 									<ul class="sub-menu">
+
 										<li><a href="@Url.Action("Index","Products")">Products</a></li>
+										<li><a href="@Url.Action("Index","ShoppingCart")">Cart</a></li>
+										<li><a href="@Url.Action("Checkout","Home")">Checkout</a></li>
+										@if (User.IsInRole("Admin"))
+										{
 										<li><a href="@Url.Action("Index","Orders")">Orders</a></li>
+										}
+
+									</ul>
+								</li>
+								<li>
+									<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">Pages <span class="caret"></span></span></a>
+									<ul class="sub-menu">
+
+										<li><a href="@Url.Action("About","Home")">About</a></li>
+										<li><a href="@Url.Action("Contact","Home")">Contact</a></li>
+
+									</ul>
+								</li>
+								@if (User.IsInRole("Admin"))
+								{
+								<li>
+									<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">Admin <span class="caret"></span></span></a>
+									<ul class="sub-menu">
+
+										<li><a href="@Url.Action("ListUsers","Administration")">Users</a></li>
+										<li><a href="@Url.Action("ListRoles","Administration")">Roles</a></li>
 										<li><a href="@Url.Action("Index","Categories")">Categories</a></li>
 										<li><a href="@Url.Action("Index","UserDetails")">User Details</a></li>
 										<li><a href="@Url.Action("Index","ClassLocations")">Class Locations</a></li>
+
 									</ul>
 								</li>
-								<li><a href="#">Pages</a>
-									<ul class="sub-menu">
-										<li><a href="@Url.Action("About","Home")">About</a></li>
-										<li><a href="@Url.Action("Cart","Home")">Cart</a></li>
-										<li><a href="@Url.Action("Checkout","Home")">Checkout</a></li>
-										<li><a href="@Url.Action("Contact","Home")">Contact</a></li>
-										<li><a href="@Url.Action("Shop","Home")">Shop</a></li>
-									</ul>
-								</li>
+								}
                                 <partial name="_LoginPartial" />
 								<li><a href="@Url.Action("About","Home")">About</a></li>
 								<li><a href="@Url.Action("Contact","Home")">Contact</a></li>
                                 <li>
 									<div class="header-icons">
-										<a class="shopping-cart" href="@Url.Action("Cart","Home")"><i class="fas fa-shopping-cart"></i></a>
-										<a class="mobile-hide search-bar-icon" href="#"><i class="fas fa-search"></i></a>
+										@{
+											bool cartHasProducts = false;
+											int productCount = 0;
+
+											if (!string.IsNullOrEmpty(Context.Session.GetString("cart")))
+											{
+												cartHasProducts = true;
+
+												var products = new Dictionary<int, CartItemViewModel>();
+
+												products = JsonConvert.DeserializeObject<Dictionary<int, CartItemViewModel>>
+												(Context.Session.GetString("cart"));
+												productCount = products.Sum(p => p.Value.Qty);
+											}
+
+										}
+										<a class="shopping-cart" href="@Url.Action("Index","ShoppingCart")"><i class="fas fa-shopping-cart"></i></a>
+											@if (cartHasProducts)
+											{
+												<sup style="
+                                            color: white;
+                                            background-color: red;
+                                            border-radius: 40%;
+                                            display: inline-block;
+                                            text-align: center;
+                                            height: 1em;
+                                            padding: 1em;">
+													@productCount
+												</sup>
+											}
+										<a class="mobile-hide search-bar-icon" href="#"><i class="fas fa-search"></i>
+										</a>
 									</div>
 								</li>
 							</ul>
