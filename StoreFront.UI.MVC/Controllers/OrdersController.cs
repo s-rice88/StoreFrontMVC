@@ -11,7 +11,8 @@ using StoreFront.DATA.EF.Models;
 
 namespace StoreFront.UI.MVC.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    
+    //[Authorize(Roles = "Admin")]
     public class OrdersController : Controller
     {
         private readonly EducatedMoneyContext _context;

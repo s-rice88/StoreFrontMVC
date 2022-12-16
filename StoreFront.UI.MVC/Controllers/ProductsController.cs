@@ -52,13 +52,22 @@ namespace StoreFront.UI.MVC.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> TableView()
         {
-            //var products =
-            //    _context.Products.Where(p => !p.Discontinued)
-            //    .Include(p => p.Category)
-            //    .Include(p => p.Location);
-            var product = _context.Products.Include(p => p.Category).Include(p => p.Location);
+            if (User.IsInRole("Admin"))
+            {
+                var product = _context.Products.Include(p => p.Category).Include(p => p.Location);
 
-            return View(await product.ToListAsync());
+                return View(await product.ToListAsync());
+            }
+            else
+            {
+
+                var product = _context.Products.Where(p => !p.Discontinued)
+                    .Include(p => p.Category)
+                    .Include(p => p.Location);
+
+
+                return View(await product.ToListAsync());
+            }
 
         }
 

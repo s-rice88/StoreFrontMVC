@@ -1,0 +1,123 @@
+﻿@model Dictionary<int, CartItemViewModel>
+
+@{
+    ViewData["Title"] = "Shopping Cart";
+
+    decimal? cartTotal = 0;
+}
+
+<div class="breadcrumb-section breadcrumb-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2 text-center">
+                <div class="breadcrumb-text">
+                    <p>Your Financial Journey Starts Here</p>
+                    <h1 class="pb-2">Products</h1>
+                    <a asp-action="Index" asp-controller="Products" class="cart-btn"><i class="fas"></i> Back to Shopping</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Model.Count == 0)
+{
+    <p class="alert alert-warning">
+        @ViewBag.Message
+    </p>
+}
+else
+{
+    <!-- cart -->
+    <div class="cart-section mt-150 mb-150">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-12">
+                    <div class="cart-table-wrap">
+
+
+
+
+                        <table class="cart-table">
+                            <thead class="cart-table-head">
+                                <tr class="table-head-row">
+                                    <th class="product-remove"></th>
+                                    <th class="product-image">Product Image</th>
+                                    <th class="product-name">Name</th>
+                                    <th class="product-price">Price</th>
+                                    <th class="product-quantity">Quantity</th>
+                                    <th class="product-total">Total</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr class="table-body-row">
+                                        <td class="product-remove">
+                                        <a asp-action="RemoveFromCart" asp-controller="ShoppingCart" asp-route-id="@item.Key"> <i class="far fa-window-close"></i></a>
+                                        </td>
+                                        <td class="product-image"><img src="~/Images/t_@item.Value.Product.ProductImage" alt="@item.Value.Product.ProductName" /></td>
+
+                                        <td class="product-name">@item.Value.Product.ProductName</td>
+
+                                        <td class="product-price">@string.Format($"{item.Value.Product.Price:c}")</td>
+
+                                        <td class="product-quantity">
+                                            <form asp-action="UpdateCart">
+                                                <input type="hidden" name="productId" value="@item.Key" />
+                                                <input type="number" name="qty" value="@item.Value.Qty" class="form-control d-block mx-auto w-50 text-center" />
+                                                <input type="submit" value="Update Cart" class="cart-buttons btn-sm" />
+                                            </form>
+                                        </td>
+
+                                        <td class="product-total">
+                                            @{
+                                                decimal? lineTotal = item.Value.Product.Price * item.Value.Qty;
+                                                cartTotal += lineTotal;
+                                            }
+                                            @string.Format($"{lineTotal:c}")
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="total-section">
+                        <table class="total-table">
+                            <thead class="total-table-head">
+                                <tr class="table-total-row">
+                                    <th>Total</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="total-data">
+                                    <td><strong>Total: </strong></td>
+                                    <td>
+                                        @string.Format($"{cartTotal:c}").
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="cart-buttons">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <a asp-action="SubmitOrder" class="boxed-btn black">Check Out</a>
+                            }
+                            else
+                            {
+                            <a href="#" class="boxed-btn black">Sign In To Check Out</a>
+                            }
+                            @*<a href="cart.html" class="boxed-btn">Update Cart</a>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end cart -->
+}

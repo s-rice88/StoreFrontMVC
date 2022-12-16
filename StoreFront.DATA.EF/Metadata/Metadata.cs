@@ -74,7 +74,7 @@ namespace StoreFront.DATA.EF.Models/*.Metadata*/
         [DisplayFormat(DataFormatString = "{0:d}", NullDisplayText = "[N/A")]
         public DateTime? PurchaseDate { get; set; }
 
-        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:c}", NullDisplayText = "[N/A")]
+        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:c}", NullDisplayText = "[N/A]")]
         [Display(Name = "Purchase Price")]
         public decimal? PurchasePrice { get; set; }
 
