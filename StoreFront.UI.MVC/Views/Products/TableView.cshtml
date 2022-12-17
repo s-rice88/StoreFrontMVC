@@ -112,3 +112,22 @@
         }
     </tbody>
 </table>
+
+
+@section scripts{
+
+    <script>
+
+        //$() - How we select nodes/elements with jQuery
+        //$(document) - Targeting/selecting the DOM (Document Object Model)
+        //$(document).ready( function () {}) - The ready function - waits for all HTML & CSS to load before executing
+
+        $(document).ready(function () {
+
+            //Update the selector in the function to target the element with the class of table
+            $('.table').DataTable();
+
+        });
+
+    </script>
+}

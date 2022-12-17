@@ -1,133 +1,139 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
 
-	@using Microsoft.AspNetCore.Http
-	@using Newtonsoft.Json
+    @using Microsoft.AspNetCore.Http
+    @using Newtonsoft.Json
 
-	<!-- title -->
-	<title>@ViewData["Title"] | StoreFront </title>
+    <!-- title -->
+    <title>@ViewData["Title"] | StoreFront </title>
 
-	<!-- favicon -->
-	<link rel="shortcut icon" type="image/png" href="~/assets/img/favicon.png">
-	<!-- google font -->
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
-	<!-- fontawesome -->
-	<link rel="stylesheet" href="~/assets/css/all.min.css">
-	<!-- bootstrap -->			 
-	<link rel="stylesheet" href="~/assets/bootstrap/css/bootstrap.min.css">
-	<!-- owl carousel -->		 
-	<link rel="stylesheet" href="~/assets/css/owl.carousel.css">
-	<!-- magnific popup -->		 
-	<link rel="stylesheet" href="~/assets/css/magnific-popup.css">
-	<!-- animate css -->		 
-	<link rel="stylesheet" href="~/assets/css/animate.css">
-	<!-- mean menu css -->		 
-	<link rel="stylesheet" href="~/assets/css/meanmenu.min.css">
-	<!-- main style -->			 
-	<link rel="stylesheet" href="~/assets/css/main.css">
-	<!-- responsive -->			 
-	<link rel="stylesheet" href="~/assets/css/responsive.css">
+    <!-- favicon -->
+    <link rel="shortcut icon" type="image/png" href="~/assets/img/favicon.png">
+    <!-- google font -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="~/assets/css/all.min.css">
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="~/assets/bootstrap/css/bootstrap.min.css">
+    <!-- owl carousel -->
+    <link rel="stylesheet" href="~/assets/css/owl.carousel.css">
+    <!-- magnific popup -->
+    <link rel="stylesheet" href="~/assets/css/magnific-popup.css">
+    <!-- animate css -->
+    <link rel="stylesheet" href="~/assets/css/animate.css">
+    <!-- mean menu css -->
+    <link rel="stylesheet" href="~/assets/css/meanmenu.min.css">
+
+    <!-- Datatables -->
+    <link href="//cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+@*    <!-- PagedList -->
+    <link href="~/css/PagedList.css" rel="stylesheet" />*@
+
+    <!-- main style -->
+    <link rel="stylesheet" href="~/assets/css/main.css">
+    <!-- responsive -->
+    <link rel="stylesheet" href="~/assets/css/responsive.css">
 
 </head>
 <body>
 
-	<!--PreLoader-->
-	<div class="loader">
-		<div class="loader-inner">
-			<div class="circle"></div>
-		</div>
-	</div>
-	<!--PreLoader Ends-->
-
-	<!-- header -->
-	<div class="top-header-area" id="sticker">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 col-sm-12 text-center">
-					<div class="main-menu-wrap">
-						<!-- logo -->
-						<div class="site-logo">
-							<a href="~/">
-								<img src="~/assets/img/logo.png" alt="">
-							</a>
-						</div>
-						<!-- logo -->
-
-						<!-- menu start -->
-						<nav class="main-menu">
-							<ul>
-								<li class="current-list-item"><a href="@Url.Action("Index","Home")">Home</a>
-								</li>
-								<li>
-									@*<a href="@Url.Action("Index","Products")">Shop</a>*@
-									<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">Shop <span class="caret"></span></span></a>
-									<ul class="sub-menu">
-
-										<li><a href="@Url.Action("Index","Products")">Products</a></li>
-										<li><a href="@Url.Action("Index","ShoppingCart")">Cart</a></li>
-										<li><a href="@Url.Action("Checkout","Home")">Checkout</a></li>
-										@if (User.IsInRole("Admin"))
-										{
-										<li><a href="@Url.Action("Index","Orders")">Orders</a></li>
-										}
-
-									</ul>
-								</li>
-								<li>
-									<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">Pages <span class="caret"></span></span></a>
-									<ul class="sub-menu">
-
-										<li><a href="@Url.Action("About","Home")">About</a></li>
-										<li><a href="@Url.Action("Contact","Home")">Contact</a></li>
-
-									</ul>
-								</li>
-								@if (User.IsInRole("Admin"))
-								{
-								<li>
-									<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">Admin <span class="caret"></span></span></a>
-									<ul class="sub-menu">
-
-										<li><a href="@Url.Action("ListUsers","Administration")">Users</a></li>
-										<li><a href="@Url.Action("ListRoles","Administration")">Roles</a></li>
-										<li><a href="@Url.Action("Index","Categories")">Categories</a></li>
-										<li><a href="@Url.Action("Index","UserDetails")">User Details</a></li>
-										<li><a href="@Url.Action("Index","ClassLocations")">Class Locations</a></li>
-
-									</ul>
-								</li>
-								}
-                                <partial name="_LoginPartial" />
-								<li><a href="@Url.Action("About","Home")">About</a></li>
-								<li><a href="@Url.Action("Contact","Home")">Contact</a></li>
+    <!--PreLoader-->
+    <div class="loader">
+        <div class="loader-inner">
+            <div class="circle"></div>
+        </div>
+    </div>
+    <!--PreLoader Ends-->
+    <!-- header -->
+    <div class="top-header-area" id="sticker">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-sm-12 text-center">
+                    <div class="main-menu-wrap">
+                        <!-- logo -->
+                        <div class="site-logo">
+                            <a href="@Url.Action("HomePage", "Products")">
+                                <img src="~/assets/img/logo.png" alt="">
+                            </a>
+                        </div>
+                        <!-- logo -->
+                        <!-- menu start -->
+                        <nav class="main-menu">
+                            <ul>
+                                <li class="current-list-item">
+                                    <a href="@Url.Action("HomePage","Products")">Home</a>
+                                </li>
                                 <li>
-									<div class="header-icons">
-										@{
-											bool cartHasProducts = false;
-											int productCount = 0;
+                                    @*<a href="@Url.Action("Index","Products")">Shop</a>*@
+                                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">Shop <span class="caret"></span></span></a>
+                                    <ul class="sub-menu">
 
-											if (!string.IsNullOrEmpty(Context.Session.GetString("cart")))
-											{
-												cartHasProducts = true;
+                                        <li><a href="@Url.Action("Index","Products")">Products</a></li>
+                                        <li><a href="@Url.Action("Index","ShoppingCart")">Cart</a></li>
+                                        <li><a href="@Url.Action("Checkout","Home")">Checkout</a></li>
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <li><a href="@Url.Action("Index","Orders")">Orders</a></li>
+                                        }
 
-												var products = new Dictionary<int, CartItemViewModel>();
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">Pages <span class="caret"></span></span></a>
+                                    <ul class="sub-menu">
 
-												products = JsonConvert.DeserializeObject<Dictionary<int, CartItemViewModel>>
-												(Context.Session.GetString("cart"));
-												productCount = products.Sum(p => p.Value.Qty);
-											}
+                                        <li><a href="@Url.Action("About","Home")">About</a></li>
+                                        <li><a href="@Url.Action("Contact","Home")">Contact</a></li>
 
-										}
-										<a class="shopping-cart" href="@Url.Action("Index","ShoppingCart")"><i class="fas fa-shopping-cart"></i></a>
-											@if (cartHasProducts)
-											{
-												<sup style="
+                                    </ul>
+                                </li>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <li>
+                                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">Admin <span class="caret"></span></span></a>
+                                        <ul class="sub-menu">
+
+                                            <li><a href="@Url.Action("ListUsers","Administration")">Users</a></li>
+                                            <li><a href="@Url.Action("ListRoles","Administration")">Roles</a></li>
+                                            <li><a href="@Url.Action("Index","Categories")">Categories</a></li>
+                                            <li><a href="@Url.Action("Index","UserDetails")">User Details</a></li>
+                                            <li><a href="@Url.Action("Index","ClassLocations")">Class Locations</a></li>
+
+                                        </ul>
+                                    </li>
+                                }
+                                <partial name="_LoginPartial" />
+                                <li><a href="@Url.Action("About","Home")">About</a></li>
+                                <li><a href="@Url.Action("Contact","Home")">Contact</a></li>
+                                <li>
+                                    <div class="header-icons">
+                                        @{
+                                            bool cartHasProducts = false;
+                                            int productCount = 0;
+
+                                            if (!string.IsNullOrEmpty(Context.Session.GetString("cart")))
+                                            {
+                                                cartHasProducts = true;
+
+                                                var products = new Dictionary<int, CartItemViewModel>();
+
+                                                products = JsonConvert.DeserializeObject<Dictionary<int, CartItemViewModel>>
+                                                (Context.Session.GetString("cart"));
+                                                productCount = products.Sum(p => p.Value.Qty);
+                                            }
+
+                                        }
+                                        <a class="shopping-cart" href="@Url.Action("Index","ShoppingCart")"><i class="fas fa-shopping-cart"></i></a>
+                                        @if (cartHasProducts)
+                                        {
+                                            <sup style="
                                             color: white;
                                             background-color: red;
                                             border-radius: 40%;
@@ -135,183 +141,182 @@
                                             text-align: center;
                                             height: 1em;
                                             padding: 1em;">
-													@productCount
-												</sup>
-											}
-										<a class="mobile-hide search-bar-icon" href="#"><i class="fas fa-search"></i>
-										</a>
-									</div>
-								</li>
-							</ul>
-						</nav>
-						<a class="mobile-show search-bar-icon" href="#"><i class="fas fa-search"></i></a>
-						<div class="mobile-menu"></div>
-						<!-- menu end -->
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- end header -->
-
-	<!-- search area -->
-	<div class="search-area">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12">
-					<span class="close-btn"><i class="fas fa-window-close"></i></span>
-					<div class="search-bar">
-						<div class="search-bar-tablecell">
-							<h3>Search For:</h3>
-							<input type="text" placeholder="Keywords">
-							<button type="submit">Search <i class="fas fa-search"></i></button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- end search area -->
-
-	@RenderBody()
-
-	<!-- logo carousel -->
-	<div class="logo-carousel-section">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12">
-					<div class="logo-carousel-inner">
-						<div class="single-logo-item">
-							<img src="~/assets/img/company-logos/1.png" alt="">
-						</div>
-						<div class="single-logo-item">
-							<img src="~/assets/img/company-logos/2.png" alt="">
-						</div>
-						<div class="single-logo-item">
-							<img src="~/assets/img/company-logos/3.png" alt="">
-						</div>
-						<div class="single-logo-item">
-							<img src="~/assets/img/company-logos/4.png" alt="">
-						</div>
-						<div class="single-logo-item">
-							<img src="~/assets/img/company-logos/5.png" alt="">
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- end logo carousel -->
-
-	<!-- footer -->
-	<div class="footer-area">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-3 col-md-6">
-					<div class="footer-box about-widget">
-						<h2 class="widget-title">About us</h2>
-						<p>Ut enim ad minim veniam perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae.</p>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-6">
-					<div class="footer-box get-in-touch">
-						<h2 class="widget-title">Get in Touch</h2>
-						<ul>
-							<li>34/8, East Hukupara, Gifirtok, Sadan.</li>
-							<li>support@fruitkha.com</li>
-							<li>+00 111 222 3333</li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-6">
-					<div class="footer-box pages">
-						<h2 class="widget-title">Pages</h2>
-						<ul>
-							<li><a href="@Url.Action("Index","Home")">Home</a></li>
-							<li><a href="@Url.Action("About","Home")">About</a></li>
-							<li><a href="@Url.Action("Shop","Home")">Shop</a></li>
-							<li><a href="@Url.Action("Contact","Home")">Contact</a></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-6">
-					<div class="footer-box subscribe">
-						<h2 class="widget-title">Subscribe</h2>
-						<p>Subscribe to our mailing list to get the latest updates.</p>
-						<form action="~/">
-							<input type="email" placeholder="Email">
-							<button type="submit"><i class="fas fa-paper-plane"></i></button>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- end footer -->
-
-	<!-- copyright -->
-	<div class="copyright">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-6 col-md-12">
-					<p>Copyrights &copy; @DateTime.Now.Year - <a href="http://thatssean.com">Sean Rice</a>,  All Rights Reserved.<br>
-					</p>
-				</div>
-				<div class="col-lg-6 text-right col-md-12">
-					<div class="social-icons">
-						<ul>
-							<li><a href="https://www.linkedin.com/in/seanrice88/" target="_blank"><i class="fab fa-linkedin"></i></a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- end copyright -->
-
-	<!-- jquery -->
-	<script src="~/assets/js/jquery-1.11.3.min.js"></script>
-	<!-- bootstrap -->
-	<script src="~/assets/bootstrap/js/bootstrap.min.js"></script>
-	<!-- count down -->
-	<script src="~/assets/js/jquery.countdown.js"></script>
-	<!-- isotope -->
-	<script src="~/assets/js/jquery.isotope-3.0.6.min.js"></script>
-	<!-- waypoints -->
-	<script src="~/assets/js/waypoints.js"></script>
-	<!-- owl carousel -->
-	<script src="~/assets/js/owl.carousel.min.js"></script>
-	<!-- magnific popup -->
-	<script src="~/assets/js/jquery.magnific-popup.min.js"></script>
-	<!-- mean menu -->
-	<script src="~/assets/js/jquery.meanmenu.min.js"></script>
-	<!-- sticker js -->
-	<script src="~/assets/js/sticker.js"></script>
-	<!-- main js -->
-	<script src="~/assets/js/main.js"></script>
+                                                @productCount
+                                            </sup>
+                                        }
 
 
+                                    </div>
+                                </li>
+                            </ul>
+                        </nav>
+                        <div class="mobile-menu"></div>
+                        <!-- menu end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end header -->
+    <!-- search area -->
+    <div class="search-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <span class="close-btn"><i class="fas fa-window-close"></i></span>
+                    <div class="search-bar">
+                        <div class="search-bar-tablecell">
+                            <h3>Search For:</h3>
+                            <input type="text" placeholder="Keywords">
+                            <button type="submit">Search <i class="fas fa-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end search area -->
+    @RenderBody()
 
-	@if (ViewData["Title"].ToString() == "Orders" || ViewData["Title"].ToString() == "Class Locations" || ViewData["Title"].ToString() == "Categories" ||
-			ViewData["Title"].ToString() == "User Details" || ViewData["Title"].ToString() == "Create a Role" || ViewData["Title"].ToString() == "List Roles"
-			|| ViewData["Title"].ToString() == "Edit Role" || ViewData["Title"].ToString() == "Log in" || ViewData["Title"].ToString() == "Table View" || 
-			ViewData["Title"].ToString() == "Add Product" || ViewData["Title"].ToString() == "Modify")
+    <!-- logo carousel -->
+    <div class="logo-carousel-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="logo-carousel-inner">
+                        <div class="single-logo-item">
+                            <img src="~/assets/img/company-logos/1.png" alt="">
+                        </div>
+                        <div class="single-logo-item">
+                            <img src="~/assets/img/company-logos/2.png" alt="">
+                        </div>
+                        <div class="single-logo-item">
+                            <img src="~/assets/img/company-logos/3.png" alt="">
+                        </div>
+                        <div class="single-logo-item">
+                            <img src="~/assets/img/company-logos/4.png" alt="">
+                        </div>
+                        <div class="single-logo-item">
+                            <img src="~/assets/img/company-logos/5.png" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end logo carousel -->
+    <!-- footer -->
+    <div class="footer-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-box about-widget">
+                        <h2 class="widget-title">About us</h2>
+                        <p>Our mission is to create structures that deepen and advance our understanding of financial management and report on research that helps clients improve performance and drive business strategy in the future.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-box get-in-touch">
+                        <h2 class="widget-title">Get in Touch</h2>
+                        <ul>
+                            <li>34/8, East Hukupara, Gifirtok, Sadan.</li>
+                            <li>support@devfi.com</li>
+                            <li>+00 111 222 3333</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-box pages">
+                        <h2 class="widget-title">Pages</h2>
+                        <ul>
+                            <li><a href="@Url.Action("HomePage","Products")">Home</a></li>
+                            <li><a href="@Url.Action("About","Home")">About</a></li>
+                            <li><a href="@Url.Action("Shop","Home")">Shop</a></li>
+                            <li><a href="@Url.Action("Contact","Home")">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-box subscribe">
+                        <h2 class="widget-title">Subscribe</h2>
+                        <p>Subscribe to our mailing list to get the latest updates.</p>
+                        <form action="~/">
+                            <input type="email" placeholder="Email">
+                            <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end footer -->
+    <!-- copyright -->
+    <div class="copyright">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-12">
+                    <p>
+                        Copyrights &copy; @DateTime.Now.Year - <a href="http://thatssean.com">Sean Rice</a>,  All Rights Reserved.<br>
+                    </p>
+                </div>
+                <div class="col-lg-6 text-right col-md-12">
+                    <div class="social-icons">
+                        <ul>
+                            <li><a href="https://www.linkedin.com/in/seanrice88/" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end copyright -->
+    <!-- jquery -->
+    <script src="~/assets/js/jquery-1.11.3.min.js"></script>
+    <!-- bootstrap -->
+    <script src="~/assets/bootstrap/js/bootstrap.min.js"></script>
+    <!-- count down -->
+    <script src="~/assets/js/jquery.countdown.js"></script>
+    <!-- isotope -->
+    <script src="~/assets/js/jquery.isotope-3.0.6.min.js"></script>
+    <!-- waypoints -->
+    <script src="~/assets/js/waypoints.js"></script>
+    <!-- owl carousel -->
+    <script src="~/assets/js/owl.carousel.min.js"></script>
+    <!-- magnific popup -->
+    <script src="~/assets/js/jquery.magnific-popup.min.js"></script>
+    <!-- mean menu -->
+    <script src="~/assets/js/jquery.meanmenu.min.js"></script>
+    <!-- sticker js -->
+    <script src="~/assets/js/sticker.js"></script>
 
-		{
-		<!-- Add bg-secondary to div element in header -->
-		<script>
-			let div = document.getElementById('sticker');
-			if (div.classList.contains('top-header-area')) {
-				div.classList.add('bg-secondary');
-			};
-		</script>
-		}
+    <!-- DataTables -->
+    <script src="//cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
 
+    <!-- main js -->
+    <script src="~/assets/js/main.js"></script>
+
+
+
+    @if (ViewData["Title"].ToString() == "Orders" || ViewData["Title"].ToString() == "Class Locations" || ViewData["Title"].ToString() == "Categories" ||
+    ViewData["Title"].ToString() == "User Details" || ViewData["Title"].ToString() == "Create a Role" || ViewData["Title"].ToString() == "List Roles"
+    || ViewData["Title"].ToString() == "Edit Role" || ViewData["Title"].ToString() == "Log in" ||
+    ViewData["Title"].ToString() == "Add Product" || ViewData["Title"].ToString() == "Modify")
+
+    {
+        <!-- Add bg-secondary to div element in header -->
+        <script>
+            let div = document.getElementById('sticker');
+            if (div.classList.contains('top-header-area')) {
+                div.classList.add('bg-secondary');
+            };
+        </script>
+    }
 
 
 
 
-	@RenderSection("scripts", false)
+
+    @RenderSection("scripts", false)
 
 </body>
 </html>
