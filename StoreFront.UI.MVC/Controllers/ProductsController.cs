@@ -10,10 +10,12 @@ using Microsoft.EntityFrameworkCore;
 using StoreFront.DATA.EF.Models;
 using System.Drawing;
 using StoreFront.UI.MVC.Utilities;
+using X.PagedList;
 
 namespace StoreFront.UI.MVC.Controllers
 {
     [Authorize(Roles = "Admin")]
+
     public class ProductsController : Controller
     {
         private readonly EducatedMoneyContext _context;
@@ -29,6 +31,7 @@ namespace StoreFront.UI.MVC.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
+
             //var product = _context.Products.Include(p => p.Category).Include(p => p.Location);
             if (User.IsInRole("Admin"))
             {
@@ -39,12 +42,12 @@ namespace StoreFront.UI.MVC.Controllers
             else
             {
 
-            var product = _context.Products.Where(p => !p.Discontinued)
-                .Include(p => p.Category)
-                .Include(p => p.Location);
+                var product = _context.Products.Where(p => !p.Discontinued)
+                    .Include(p => p.Category)
+                    .Include(p => p.Location);
 
 
-            return View(await product.ToListAsync());
+                return View(await product.ToListAsync());
             }
         }
 
@@ -67,6 +70,30 @@ namespace StoreFront.UI.MVC.Controllers
 
 
                 return View(await product.ToListAsync());
+            }
+
+        }
+        [AllowAnonymous]
+        public async Task<IActionResult> HomePage()
+        {
+
+            if (User.IsInRole("Admin"))
+            {
+                var product = _context.Products.Include(p => p.Category).Include(p => p.Location);
+
+                return View(await product.ToListAsync());
+            }
+            else
+            {
+
+                var product = _context.Products.Where(p => !p.Discontinued)
+                    .Include(p => p.Category)
+                    .Include(p => p.Location);
+
+
+
+                return View(await product.ToListAsync());
+
             }
 
         }
@@ -111,35 +138,35 @@ namespace StoreFront.UI.MVC.Controllers
             if (ModelState.IsValid)
             {
 
-                
+
                 if (product.Image != null)
                 {
-                    
+
                     string ext = Path.GetExtension(product.Image.FileName);
 
-                    
+
                     string[] validExts = { ".jpeg", ".jpg", ".gif", ".png" };
 
-                    
+
                     if (validExts.Contains(ext.ToLower()) && product.Image.Length < 4_194_303)
                     {
 
-                        
+
                         product.ProductImage = Guid.NewGuid() + ext;
 
-                        
+
                         string webRootPath = _webHostEnvironment.WebRootPath;
 
-                        
+
                         string fullImagePath = webRootPath + "/images/";
 
-                        
+
                         using (var memoryStream = new MemoryStream())
                         {
-                            
+
                             await product.Image.CopyToAsync(memoryStream);
 
-                            
+
                             using (var img = Image.FromStream(memoryStream))
                             {
 
@@ -149,14 +176,14 @@ namespace StoreFront.UI.MVC.Controllers
 
                                 ImageUtility.ResizeImage(fullImagePath, product.ProductImage, img, maxImageSize, maxThumbSize);
 
-                             
+
                             }
                         }
                     }
                 }
                 else
                 {
-                    
+
                     product.ProductImage = "noimage.png";
                 }
 
@@ -213,55 +240,55 @@ namespace StoreFront.UI.MVC.Controllers
             if (ModelState.IsValid)
             {
 
-                
+
                 string oldImageName = product.ProductImage;
 
-                
+
                 if (product.Image != null)
                 {
-                    
+
                     string ext = Path.GetExtension(product.Image.FileName);
 
-                    
+
                     string[] validExts = { ".jpeg", ".jpg", ".gif", ".png" };
 
-                    
+
                     if (validExts.Contains(ext.ToLower()) && product.Image.Length < 4_194_303)
                     {
-                        
+
                         product.ProductImage = Guid.NewGuid() + ext;
 
-                        
+
                         string webRootPath = _webHostEnvironment.WebRootPath;
                         string fullImagePath = webRootPath + "/images/";
 
-                        
+
                         if (oldImageName != "noimage.png")
                         {
                             ImageUtility.Delete(fullImagePath, oldImageName);
                         }
 
-                        
+
                         using (var memoryStream = new MemoryStream())
                         {
-                            
+
                             await product.Image.CopyToAsync(memoryStream);
 
-                            
+
                             using (var img = Image.FromStream(memoryStream))
                             {
-                                
+
                                 int maxImageSize = 500;
                                 int maxThumbSize = 100;
 
-                                
+
                                 ImageUtility.ResizeImage(fullImagePath, product.ProductImage, img, maxImageSize, maxThumbSize);
                             }
                         }
                     }
                 }
 
-                
+
 
                 try
                 {
@@ -349,14 +376,17 @@ namespace StoreFront.UI.MVC.Controllers
             {
                 _context.Products.Remove(product);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ProductExists(int id)
         {
-          return _context.Products.Any(e => e.ProductId == id);
+            return _context.Products.Any(e => e.ProductId == id);
         }
+
+        
+
     }
 }
