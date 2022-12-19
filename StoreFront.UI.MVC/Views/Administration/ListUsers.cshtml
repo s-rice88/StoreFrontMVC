@@ -6,18 +6,28 @@
     ViewData["Title"] = "Users";
 }
 
-
-<h1>All Users</h1>
+<div class="breadcrumb-section breadcrumb-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2 text-center">
+                <div class="breadcrumb-text">
+                    <p>Admin Page</p>
+                    <h1 class="pb-2">All Users</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @if (Model.Any())
 {
-    <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary mb-3" style="width:auto">
+    <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary m-3">
         Add new user
     </a>
 
     foreach (var user in Model)
     {
-        <div class="card mb-3">
+        <div class="card m-3 text-center">
             <div class="card-header">
                 User Id : @user.Id
             </div>
